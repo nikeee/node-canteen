@@ -259,6 +259,6 @@ server.get("/menu/:canteen", (req, res, next) => {
 	});
 });
 
-server.listen(8080, () => {
+server.listen(process.env["npm_package_config_port"], () => {
 	console.log("%s listening at %s", server.name, server.url);
 });
