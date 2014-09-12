@@ -1,6 +1,6 @@
 {
-  "name": "node-canteen",
-  "description": "A RESTful service that provides information about current canteen menu.",
+  "name": "canteen",
+  "description": "A RESTful service that provides information about the current canteen menu.",
   "tags": [
     "canteen",
     "menu",
