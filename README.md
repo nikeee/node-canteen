@@ -1,6 +1,6 @@
 # node-canteen
 
-A RESTful service that provides information about current canteen menu. Written in TypeScript running in node.js.
+A RESTful service that provides information about the current canteen menu. Written in TypeScript running in node.js.
 
 To install the dependencies, use:
 ```
