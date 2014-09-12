@@ -14,9 +14,9 @@
     "url": "https://github.com/nikeee"
   },
   "license": "Beerware/Pizzaware",
-  "engines": [
+  "engines": {
     "node": ">=0.10.0"
-  ],
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/nikeee/node-canteen.git"
@@ -44,4 +44,3 @@
     "port": "8080"
   }
 }
-
