@@ -64,10 +64,3 @@ interface IPriceItem
 	employee: number;
 	foreign: number;
 }
-
-enum MeatState
-{
-	ContainsMeat = 0,
-	Meatless = 1,
-	Vegan = 3 /* MeatState.Meatless | 2 */
-}

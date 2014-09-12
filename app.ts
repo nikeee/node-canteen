@@ -93,7 +93,6 @@ class UniKasselParser implements IMenuParser
 						name: realMealName,
 						attributes: attr,
 						price: price
-						/* meatState: meatState */
 					};
 				}
 			}
