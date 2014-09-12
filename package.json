@@ -10,11 +10,12 @@
   "version": "0.1.0",
   "author": {
     "name": "Niklas Mollenhauer",
-    "email": "nikeee@outlook.com"
+    "email": "nikeee@outlook.com",
+    "url": "https://github.com/nikeee"
   },
   "license": "Beerware/Pizzaware",
   "engines": [
-    "node >=0.10.0"
+    "node": ">=0.10.0"
   ],
   "repository": {
     "type": "git",
@@ -30,6 +31,10 @@
     "request": "~2.42.0",
     "restify": "~2.8.2",
   },
+  "devDependencies": {
+    "typescript": "~1.0.3"
+  },
+  "private": true,
   "readmeFilename": "README.md",
   "scripts": {
     "start": "node app.js",
