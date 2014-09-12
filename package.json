@@ -30,5 +30,10 @@
     "request": "~2.42.0",
     "restify": "~2.8.2",
   },
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "scripts": {
+    "start": "node app.js",
+    "prepublish": "tsc -m CommonJS --removeComments app.ts"
+  }
 }
+
