@@ -42,7 +42,8 @@ interface ICanteenItem
 interface ICanteenInfo
 {
 	name: string;
-	location?: string;
+	locationDescription?: string;
+	location?: {x: number; y: number};
 }
 
 interface IMeals

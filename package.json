@@ -41,6 +41,7 @@
     "prepublish": "tsc -m CommonJS --removeComments app.ts"
   },
   "config": {
-    "port": "8080"
+    "port": "8080",
+    "url": "http://uni.holz.nu"
   }
 }

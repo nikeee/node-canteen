@@ -36,7 +36,10 @@ class UniKasselParser implements IMenuParser
 			success: true,
 			menu: {
 				info: canteen.info,
-				validity: validity,
+				validity: {
+					from: this.fixDateOffset(validity.from),
+					until: this.fixDateOffset(validity.until)
+				},
 				currency: "€",
 				meals: meals,
 			}
@@ -91,7 +94,7 @@ class UniKasselParser implements IMenuParser
 				{
 					mealIdDuringDays[dayOfWeek] = {
 						name: realMealName,
-						attributes: attr,
+						attributes: attr || [],
 						price: price
 					};
 				}
@@ -106,10 +109,10 @@ class UniKasselParser implements IMenuParser
 		if(!text || !text.trim())
 			return null;
 
-		text = text.replace(/€/gim, "");
-		text = text.replace(/,/gim, ".");
-		text = text.replace(/\s/gim, "");
-		text = text.replace(/\(.*?\)/gim, "");
+		text = text.replace(/€/gim, "")
+					.replace(/,/gim, ".")
+					.replace(/\s/gim, "")
+					.replace(/\(.*?\)/gim, "");
 
 		var tsplit = text.split("/");
 		if(tsplit.length != 3)
@@ -129,14 +132,17 @@ class UniKasselParser implements IMenuParser
 	{
 		if(!name)
 			return "";
-		name = name.replace(UniKasselParser._mealAttrRe, "");
-		name = name.replace(/\s{2,}/gim, " ");
+		name = name.replace(UniKasselParser._mealAttrRe, "")
+				.replace(/\s{2,}/gim, " ");
 		return name.trim();
 	}
 
 	private static _mealAttrRe = /\((.*?)\)/gim;
 	private static getMealAttributes(name: string): string[]
 	{
+		if(!name)
+			return [];
+		name = name.replace(/\s/gim, "");
 		var m = UniKasselParser._mealAttrRe.exec(name);
 		if(!m || m.length < 1)
 			return [];
@@ -172,6 +178,12 @@ class UniKasselParser implements IMenuParser
 			until: moment(untilSplit.join("."), "DD.MM.YYYY").toDate()
 		};
 	}
+
+	private fixDateOffset(d: Date): Date
+	{
+		d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
+		return d;
+	}
 }
 
 class Menu
@@ -188,7 +200,7 @@ class Menu
 		hopla: {
 			info: {
 				name: "Zentralmensa Uni Kassel",
-				location: "Holländischer Platz"
+				locationDescription: "Holländischer Platz"
 			},
 			url: "./html-data/z1.html",/* "http://www.studentenwerk-kassel.de/188.html", */
 			parser: new UniKasselParser(),
@@ -238,6 +250,10 @@ class Menu
 }
 
 var server = restify.createServer();
+
+server.name = "canteen";
+server.version = "1.0.0";
+server.url = process.env["npm_package_config_url"];
 
 // TODO: Make better use of restify API.
 
