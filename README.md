@@ -14,7 +14,7 @@ tsc -m commonjs --removeComments app.ts
 
 To run the server:
 ```
-node app
+npm start
 ```
 
 Still WIP.
