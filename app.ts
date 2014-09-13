@@ -170,9 +170,6 @@ class UniKasselParser implements IMenuParser
 		var fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
 		var untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
 
-		console.dir(fromDate);
-		console.dir(untilDate);
-
 		return {
 			from : fromDate,
 			until: untilDate
