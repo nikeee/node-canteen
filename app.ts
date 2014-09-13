@@ -18,9 +18,6 @@ import fs = require("fs");
 
 class UniKasselParser implements IMenuParser
 {
-	// "Speiseplan vom 08.09. bis 12.09.2014"
-	private static _intervalRe = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim;
-
 	public parse(canteen: ICanteenItem, response: string): IParseResult
 	{
 		var $ = cheerio.load(response);
@@ -151,19 +148,16 @@ class UniKasselParser implements IMenuParser
 
 	private parseValidityInterval(intervalStr: string): IMenuValidity
 	{
-		var now = moment();
 
-		var intervalReExec = UniKasselParser._intervalRe.exec(intervalStr);
-
-		var fromDate: Date;
-		var untilDate: Date;
+		// "Speiseplan vom 08.09. bis 12.09.2014"
+		var intervalReExec = /(\d+\.\d+\.\d*)\s*.*\s+(\d+\.\d+\.\d+)/gim.exec(intervalStr);
 
 		// If parsing the date values failed, just use the current week as interval
 		if(!intervalReExec || intervalReExec.length != 3)
 		{
 			return {
-				from : now.startOf("week").toDate(),
-				until: now.endOf("week").toDate()
+				from : moment().startOf("week").toDate(),
+				until: moment().endOf("week").toDate()
 			};
 		}
 
@@ -173,9 +167,15 @@ class UniKasselParser implements IMenuParser
 		untilSplit[2] = untilSplit[2] || (new Date()).getFullYear().toString();
 		fromSplit[2] = fromSplit[2] || untilSplit[2];
 
+		var fromDate = moment(fromSplit.join("."), "DD.MM.YYYY").toDate();
+		var untilDate = moment(untilSplit.join("."), "DD.MM.YYYY").toDate();
+
+		console.dir(fromDate);
+		console.dir(untilDate);
+
 		return {
-			from : moment(fromSplit.join("."), "DD.MM.YYYY").toDate(),
-			until: moment(untilSplit.join("."), "DD.MM.YYYY").toDate()
+			from : fromDate,
+			until: untilDate
 		};
 	}
 
@@ -262,6 +262,8 @@ server.get("/menu/:canteen", (req, res, next) => {
 	// Definition fail. res.charSet(string) actually exists. The .d.ts file is wrong.
 	// Ignore this compilation error.
 	res.charSet("utf-8");
+
+	console.log("Serving response.");
 
 	// TODO: Cache Menu in RAM after startup
 	// Pull a new version every 20 minutes

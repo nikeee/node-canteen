@@ -43,7 +43,7 @@ interface ICanteenInfo
 {
 	name: string;
 	locationDescription?: string;
-	location?: {x: number; y: number};
+	location?: { lat: number; long: number};
 }
 
 interface IMeals
