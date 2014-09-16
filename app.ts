@@ -272,7 +272,7 @@ class Menu
 		}
 	};
 
-	public static getOrRequestCached(canteen: string, cb: (err: Error, data: ICanteenMenu) => void) : void
+	public static getCachedOrRequestNew(canteen: string, cb: (err: Error, data: ICanteenMenu) => void) : void
 	{
 		if(!Menu._hasInit)
 			Menu.init();
@@ -349,13 +349,15 @@ var server = restify.createServer();
 server.name = "canteen";
 server.version = "1.0.0";
 server.url = process.env["npm_package_config_url"];
+var port = parseInt(process.env["npm_package_config_port"]);
 
 // TODO: Make better use of restify API.
-server.on("uncaughtException", (request, response, route, error) => {
+
+server.on("uncaughtException", (req, res, route, error) => {
 	console.error(route + ":\n");
 	console.dir(error);
 
-	response.send(500, {
+	res.send(500, {
 		success: false,
 		message: error
 	});
@@ -363,16 +365,11 @@ server.on("uncaughtException", (request, response, route, error) => {
 
 server.get("/menu/:canteen", (req, res, next) => {
 
-	// Definition fail. res.charSet(string) actually exists. The .d.ts file is wrong.
-	// Ignore this compilation error.
 	res.charSet("utf-8");
 
 	console.log("Serving response.");
 
-	// TODO: Cache Menu in RAM after startup
-	// Pull a new version every 20 minutes
-	// Serve cached version to clients
-	Menu.getOrRequestCached(req.params.canteen, (err, menu) => {
+	Menu.getCachedOrRequestNew(req.params.canteen, (err, menu) => {
 		if(err)
 		{
 			res.send(500, {
@@ -388,6 +385,4 @@ server.get("/menu/:canteen", (req, res, next) => {
 	});
 });
 
-server.listen(process.env["npm_package_config_port"], () => {
-	console.log("%s listening at %s", server.name, server.url);
-});
+server.listen(port, () => console.log("%s listening at %s", server.name, server.url));
