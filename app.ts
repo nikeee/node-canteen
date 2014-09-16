@@ -247,18 +247,26 @@ class Menu
 	private static _availableCanteens: ICanteenList = {
 		wilhelmshoehe: {
 			info: {
-				name: "Mensa Wilhelmshöher Allee"
+				name: "Mensa Wilhelmshöher Allee",
+				location: {
+					lat: 51.31116,
+					long: 9.47467
+				}
 			},
-			url: "./html-data/1.html",/* "http://www.studentenwerk-kassel.de/189.html", */
+			url: "http://www.studentenwerk-kassel.de/189.html",
 			parser: new UniKasselParser(),
 			mealCount: 4
 		},
 		hopla: {
 			info: {
 				name: "Zentralmensa Uni Kassel",
-				locationDescription: "Holländischer Platz"
+				locationDescription: "Holländischer Platz",
+				location: {
+					lat: 51.32318,
+					long: 9.50626
+				}
 			},
-			url: "./html-data/z1.html",/* "http://www.studentenwerk-kassel.de/188.html", */
+			url: "http://www.studentenwerk-kassel.de/188.html",
 			parser: new UniKasselParser(),
 			mealCount: 6
 		}
