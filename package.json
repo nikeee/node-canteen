@@ -43,6 +43,6 @@
   "config": {
     "port": "8080",
     "url": "http://uni.holz.nu",
-    "maxMenuAge": "3600"
+    "maxMenuAge": 3600
   }
 }
