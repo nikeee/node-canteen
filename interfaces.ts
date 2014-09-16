@@ -11,6 +11,18 @@ interface IMenuParser
 	parse(canteen: ICanteenItem, response: string): IParseResult;
 }
 
+interface IParserProxy
+{
+	maxAge: number;
+	canteen: string;
+	/**
+	 * Returns the age of the current caced plan in seconds.
+	 */
+	getMenuAge(): number;
+	getCurrentMenu(cb: (err: Error, data: ICanteenMenu) => void): void;
+	refresh(cb: (err: Error, data: ICanteenMenu) => void): void;
+}
+
 interface IParseResult
 {
 	success: boolean;
@@ -37,13 +49,14 @@ interface ICanteenItem
 	url: string;
 	parser: IMenuParser;
 	mealCount: number;
+	parserProxy?: IParserProxy;
 }
 
 interface ICanteenInfo
 {
 	name: string;
 	locationDescription?: string;
-	location?: { lat: number; long: number};
+	location?: { lat: number; long: number };
 }
 
 interface IMeals

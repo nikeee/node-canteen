@@ -16,6 +16,65 @@ import fs = require("fs");
 // TODO: Split into multi-file-modules
 // TODO: Documentation/JSDoc
 
+class ParserProxy implements IParserProxy
+{
+	private _ts: Date;
+	private _currentMenu: ICanteenMenu = null;
+	private _hasInitialList = false;
+
+	/**
+	 * Returns the age of the current caced plan in seconds.
+	 */
+	public getMenuAge(): number
+	{
+		return moment().subtract(this._ts).seconds();
+	}
+
+	constructor(public canteen: string, public maxAge: number)
+	{
+		if(!canteen)
+			throw "No canteen?";
+
+		this._ts = new Date(0);
+	}
+
+	public getCurrentMenu(cb: (err: Error, data: ICanteenMenu) => void): void
+	{
+		if(!cb)
+			cb = (e, d) => {};
+
+		if(!this._hasInitialList || this.getMenuAge() >= this.maxAge)
+		{
+			this.refresh((e, d) => {
+				if(e)
+				{
+					cb(e, null);
+					return;
+				}
+				this._hasInitialList = true;
+				this._ts = new Date();
+				this._currentMenu = d;
+				cb(null, this._currentMenu);
+			});
+		}
+		else
+		{
+			cb(null, this._currentMenu);
+		}
+	}
+
+	public refresh(cb: (err: Error, data: ICanteenMenu) => void): void
+	{
+		// this._ts = new Date();
+		if(!this.canteen)
+		{
+			cb(new Error("No canteen available."), this._currentMenu);
+			return;
+		}
+		Menu.pull(this.canteen, (err, menu) => cb(err, menu));
+	}
+}
+
 class UniKasselParser implements IMenuParser
 {
 	public parse(canteen: ICanteenItem, response: string): IParseResult
@@ -205,8 +264,38 @@ class Menu
 		}
 	};
 
+	public static getOrRequestCached(canteen: string, cb: (err: Error, data: ICanteenMenu) => void) : void
+	{
+		if(!Menu._hasInit)
+			Menu.init();
+		if(!cb)
+			cb = (e, d) => {};
+		if(!canteen || typeof Menu._availableCanteens[canteen.toLowerCase()] === "undefined")
+		{
+			cb(new Error("Canteen not available"), null);
+			return;
+		}
+
+		Menu._availableCanteens[canteen].parserProxy.getCurrentMenu((e, d) => cb(e, d));
+	}
+
+	private static _hasInit = false;
+	private static init(): void
+	{
+		var maxAge = parseInt(process.env["npm_package_config_maxMenuAge"]);
+
+		for(var key in Menu._availableCanteens)
+		{
+			Menu._availableCanteens[key].parserProxy = new ParserProxy(key, maxAge);
+		}
+		Menu._hasInit = true;
+	}
+
 	public static pull(canteen: string, cb: (err: Error, data: ICanteenMenu) => void) : void
 	{
+		if(!Menu._hasInit)
+			Menu.init();
+
 		if(!cb)
 			cb = (e, d) => {};
 		if(!canteen || typeof Menu._availableCanteens[canteen.toLowerCase()] === "undefined")
@@ -237,6 +326,7 @@ class Menu
 			});
 		}
 	}
+
 	private static handleBody(canteenData: ICanteenItem, body: string, cb: (err: Error, data: ICanteenMenu) => void) : void
 	{
 		var parseRes = canteenData.parser.parse(canteenData, body);
@@ -253,6 +343,15 @@ server.version = "1.0.0";
 server.url = process.env["npm_package_config_url"];
 
 // TODO: Make better use of restify API.
+server.on("uncaughtException", (request, response, route, error) => {
+	console.error(route + ":\n");
+	console.dir(error);
+
+	response.send(500, {
+		success: false,
+		message: error
+	});
+});
 
 server.get("/menu/:canteen", (req, res, next) => {
 
@@ -265,11 +364,18 @@ server.get("/menu/:canteen", (req, res, next) => {
 	// TODO: Cache Menu in RAM after startup
 	// Pull a new version every 20 minutes
 	// Serve cached version to clients
-	Menu.pull(req.params.canteen, (err, menu) => {
+	Menu.getOrRequestCached(req.params.canteen, (err, menu) => {
 		if(err)
-			res.send("Error: " + err.message);
+		{
+			res.send(500, {
+				success: false,
+				message: err.message
+			});
+		}
 		else
+		{
 			res.send(menu);
+		}
 		next();
 	});
 });
