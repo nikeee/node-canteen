@@ -15,8 +15,8 @@ interface IParserProxy
 	 * Returns the age of the current caced plan in seconds.
 	 */
 	getMenuAge(): number;
-	getCurrentMenu(cb: (err: Error, data: ICanteenMenu) => void): void;
-	refresh(cb: (err: Error, data: ICanteenMenu) => void): void;
+	getCurrentMenu(cb: (err: Error, data: IParseResult) => void): void;
+	refresh(cb: (err: Error, data: IParseResult) => void): void;
 }
 
 interface ICanteenList

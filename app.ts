@@ -20,7 +20,7 @@ import fs = require("fs");
 class ParserProxy implements IParserProxy
 {
 	private _ts: Date;
-	private _currentMenu: ICanteenMenu = null;
+	private _currentMenu: IParseResult = null;
 	private _hasInitialList = false;
 
 	/**
@@ -39,7 +39,7 @@ class ParserProxy implements IParserProxy
 		this._ts = new Date(0);
 	}
 
-	public getCurrentMenu(cb: (err: Error, data: ICanteenMenu) => void): void
+	public getCurrentMenu(cb: (err: Error, data: IParseResult) => void): void
 	{
 		if(!cb)
 			cb = (e, d) => {};
@@ -64,7 +64,7 @@ class ParserProxy implements IParserProxy
 		}
 	}
 
-	public refresh(cb: (err: Error, data: ICanteenMenu) => void): void
+	public refresh(cb: (err: Error, data: IParseResult) => void): void
 	{
 		// this._ts = new Date();
 		if(!this.canteen)
@@ -273,7 +273,7 @@ class Menu
 		}
 	};
 
-	public static getCachedOrRequestNew(canteen: string, cb: (err: Error, data: ICanteenMenu) => void) : void
+	public static getCachedOrRequestNew(canteen: string, cb: (err: Error, data: IParseResult) => void) : void
 	{
 		if(!Menu._hasInit)
 			Menu.init();
@@ -300,7 +300,7 @@ class Menu
 		Menu._hasInit = true;
 	}
 
-	public static pull(canteen: string, cb: (err: Error, data: ICanteenMenu) => void) : void
+	public static pull(canteen: string, cb: (err: Error, data: IParseResult) => void) : void
 	{
 		if(!Menu._hasInit)
 			Menu.init();
@@ -336,12 +336,13 @@ class Menu
 		}
 	}
 
-	private static handleBody(canteenData: ICanteenItem, body: string, cb: (err: Error, data: ICanteenMenu) => void) : void
+	private static handleBody(canteenData: ICanteenItem, body: string, cb: (err: Error, data: IParseResult) => void) : void
 	{
 		var parseRes = canteenData.parser.parse(canteenData, body);
-		if(!parseRes.success)
-			return cb(new Error(parseRes.message || "Failed to parse menu."), null);
-		cb(null, parseRes.menu);
+		//if(!parseRes.success)
+		//	return cb(new Error(parseRes.message || "Failed to parse menu."), null);
+		//cb(null, parseRes.menu);
+		cb(null, parseRes);
 	}
 }
 
