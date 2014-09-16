@@ -1,10 +1,6 @@
-// TODO: Documentation/JSDoc
+///<reference path="./interfaces-shared.ts"/>
 
-interface IMenuValidity
-{
-	from: Date;
-	until: Date;
-}
+// TODO: Documentation/JSDoc
 
 interface IMenuParser
 {
@@ -23,21 +19,6 @@ interface IParserProxy
 	refresh(cb: (err: Error, data: ICanteenMenu) => void): void;
 }
 
-interface IParseResult
-{
-	success: boolean;
-	message?: string;
-	menu: ICanteenMenu;
-}
-
-interface ICanteenMenu
-{
-	info: ICanteenInfo;
-	validity: IMenuValidity;
-	currency: string;
-	meals: IMeals;
-}
-
 interface ICanteenList
 {
 	[key: string]: ICanteenItem;
@@ -50,31 +31,4 @@ interface ICanteenItem
 	parser: IMenuParser;
 	mealCount: number;
 	parserProxy?: IParserProxy;
-}
-
-interface ICanteenInfo
-{
-	name: string;
-	locationDescription?: string;
-	location?: { lat: number; long: number };
-}
-
-interface IMeals
-{
-	[genericName: string]: { [dayOfWeek: number]: IMealItem };
-}
-
-interface IMealItem
-{
-	name: string;
-	//meatState: MeatState;
-	attributes: string[]
-	price: IPriceItem;
-}
-
-interface IPriceItem
-{
-	student: number;
-	employee: number;
-	foreign: number;
 }

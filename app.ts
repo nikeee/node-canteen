@@ -5,6 +5,7 @@
 ///<reference path="typings/moment/moment.d.ts"/>
 
 ///<reference path="./interfaces.ts"/>
+///<reference path="./interfaces-shared.ts"/>
 
 import restify = require("restify");
 import cheerio = require("cheerio");
@@ -350,6 +351,9 @@ server.name = "canteen";
 server.version = "1.0.0";
 server.url = process.env["npm_package_config_url"];
 var port = parseInt(process.env["npm_package_config_port"]);
+
+server.use(restify.CORS());
+server.use(restify.fullResponse());
 
 // TODO: Make better use of restify API.
 
