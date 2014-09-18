@@ -247,7 +247,7 @@ class UniKasselParser implements IMenuParser
 
 class Menu
 {
-	private static _availableCanteens: ICanteenList = {
+	public static availableCanteens: ICanteenList = {
 		wilhelmshoehe: {
 			info: {
 				name: "Mensa Wilhelmshöher Allee",
@@ -297,13 +297,13 @@ class Menu
 			Menu.init();
 		if(!cb)
 			cb = (e, d) => {};
-		if(!canteen || typeof Menu._availableCanteens[canteen.toLowerCase()] === "undefined")
+		if(!canteen || typeof Menu.availableCanteens[canteen.toLowerCase()] === "undefined")
 		{
 			cb(new Error("Canteen not available"), null);
 			return;
 		}
 
-		Menu._availableCanteens[canteen].parserProxy.getCurrentMenu((e, d) => cb(e, d));
+		Menu.availableCanteens[canteen].parserProxy.getCurrentMenu((e, d) => cb(e, d));
 	}
 
 	private static _hasInit = false;
@@ -311,9 +311,9 @@ class Menu
 	{
 		var maxAge = parseInt(process.env["npm_package_config_maxMenuAge"]);
 
-		for(var key in Menu._availableCanteens)
+		for(var key in Menu.availableCanteens)
 		{
-			Menu._availableCanteens[key].parserProxy = new ParserProxy(key, maxAge);
+			Menu.availableCanteens[key].parserProxy = new ParserProxy(key, maxAge);
 		}
 		Menu._hasInit = true;
 	}
@@ -325,13 +325,13 @@ class Menu
 
 		if(!cb)
 			cb = (e, d) => {};
-		if(!canteen || typeof Menu._availableCanteens[canteen.toLowerCase()] === "undefined")
+		if(!canteen || typeof Menu.availableCanteens[canteen.toLowerCase()] === "undefined")
 		{
 			cb(new Error("Canteen not available"), null);
 			return;
 		}
 
-		var canteenData = Menu._availableCanteens[canteen];
+		var canteenData = Menu.availableCanteens[canteen];
 
 		if(fs.existsSync(canteenData.url))
 		{
@@ -385,7 +385,12 @@ server.on("uncaughtException", (req, res, route, error) => {
 		message: error
 	});
 });
-
+server.get("/canteens", (rq, res, next) => {
+	res.send({
+		availableCanteens: Object.keys(Menu.availableCanteens)
+	});
+	next();
+});
 server.get("/menu/:canteen", (req, res, next) => {
 
 	res.charSet("utf-8");
