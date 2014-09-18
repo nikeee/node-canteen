@@ -14,7 +14,6 @@ interface IMeals
 interface IMealItem
 {
 	name: string;
-	//meatState: MeatState;
 	attributes: string[]
 	price: IPriceItem;
 }
