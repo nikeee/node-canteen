@@ -272,6 +272,22 @@ class Menu
 			url: "http://www.studentenwerk-kassel.de/188.html",
 			parser: new UniKasselParser(),
 			mealCount: 6
+		},
+		menzelstrasse: {
+			info: {
+				name: "Mensa Menzelstraße"
+			},
+			url: "http://www.studentenwerk-kassel.de/195.html",
+			parser: new UniKasselParser(),
+			mealCount: 2 /* actually there are more, but they don't get used */
+		},
+		plett: {
+			info: {
+				name: "Mensa Heinrich-Plett-Straße"
+			},
+			url: "http://www.studentenwerk-kassel.de/187.html",
+			parser: new UniKasselParser(),
+			mealCount: 4
 		}
 	};
 
