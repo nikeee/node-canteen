@@ -288,6 +288,14 @@ class Menu
 			url: "http://www.studentenwerk-kassel.de/187.html",
 			parser: new UniKasselParser(),
 			mealCount: 4
+		},
+		witzenhausen: {
+			info: {
+				name: "Mensa Witzenhausen"
+			},
+			url: "http://www.studentenwerk-kassel.de/415.html",
+			parser: new UniKasselParser(),
+			mealCount: 4
 		}
 	};
 
