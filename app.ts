@@ -189,8 +189,10 @@ class UniKasselParser implements IMenuParser
 	{
 		if(!name)
 			return "";
-		name = name.replace(UniKasselParser._mealAttrRe, "")
-				.replace(/\s{2,}/gim, " ");
+		name = name
+				.replace(UniKasselParser._mealAttrRe, "")
+				.replace(/\s{2,}/gim, " ")
+				.replace(/\s,/gim,",");
 		return name.trim();
 	}
 
