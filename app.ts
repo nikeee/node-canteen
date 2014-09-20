@@ -202,10 +202,19 @@ class UniKasselParser implements IMenuParser
 		if(!name)
 			return [];
 		name = name.replace(/\s/gim, "");
-		var m = UniKasselParser._mealAttrRe.exec(name);
-		if(!m || m.length < 1)
-			return [];
-		return m[1].split(",");
+		var m;
+		var s = "";
+		while((m = UniKasselParser._mealAttrRe.exec(name)) !== null)
+		{
+			if(!!m || m.length > 0)
+				s += m[1] + ",";
+		}
+		s = s.substring(0, s.length - 1);
+		s = s
+			.replace(/\(/gim, ",")
+			.replace(/\)/gim, ",")
+			.replace(/,{2,}/gim, ",");
+		return s.split(",").concat();
 	}
 
 	private parseValidityInterval(intervalStr: string): IMenuValidity
