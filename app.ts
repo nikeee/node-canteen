@@ -306,7 +306,7 @@ class Menu
 			},
 			url: "http://www.studentenwerk-kassel.de/188.html",
 			parser: new UniKasselParser(),
-			mealCount: 7
+			mealCount: 6
 		},
 		menzelstrasse: {
 			info: {
