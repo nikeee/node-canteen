@@ -29,10 +29,10 @@
     "cheerio": "~0.17.0",
     "moment": "~2.8.3",
     "request": "~2.42.0",
-    "restify": "~2.8.2"
+    "restify": "~2.8.2",
+    "typescript": "~1.0.1"
   },
   "devDependencies": {
-    "typescript": "~1.0.1"
   },
   "private": true,
   "readmeFilename": "README.md",
