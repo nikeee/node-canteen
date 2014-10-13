@@ -81,10 +81,10 @@ class UniKasselParser implements IMenuParser
 	public parse(canteen: ICanteenItem, response: string): IParseResult
 	{
 		var $ = cheerio.load(response);
-		var $tbody = $("body#essen table tbody");
+		var $tbody = $("div.mainmensa table");
 
 		// "Speiseplan vom 08.09. bis 12.09.2014"
-		var intervalStr = $("tr[valign=bottom] td strong", $tbody).text();
+		var intervalStr = $("tr.thead h4", $tbody).text();
 		var validity = this.parseValidityInterval(intervalStr);
 
 		var meals = this.parseMeals($, $tbody, canteen);
@@ -111,14 +111,17 @@ class UniKasselParser implements IMenuParser
 
 		var meals: IMeals = {};
 
+		var $prices = $("tr.price_row", $tbody);
+		var $items = $("tr.items_row", $tbody);
+
 		for(var row = 0; row < numMeals; ++row)
 		{
 			var trChildId = offset + row * 2;
-			var $currentRow = $("tr:nth-child(" + trChildId + ")", $tbody);
-			var $rowBeneath = $("tr:nth-child(" + (trChildId + 1) + ")", $tbody);
+			var $currentRow = $items[row];
+			var $rowBeneath = $prices[row];
 
 			// "Essen 1", "Essen 2", "Essen 3 oder 4", "Angebot des Tages"
-			var genericMealName = $("td.gelb strong.big2", $currentRow).text();
+			var genericMealName = $("td.menu_head", $currentRow).text();
 
 			// "Essen X" for Monday, Tuesday, Wednesday etc.
 			var mealIdDuringDays: { [dayOfWeek: number]: IMealItem } = {};
@@ -129,19 +132,25 @@ class UniKasselParser implements IMenuParser
 			for(var dayOfWeek = 1; dayOfWeek <= 5; ++dayOfWeek)
 			{
 				var tdChildId = dayOfWeek + 1;
-				var $td = $("td:nth-child(" + tdChildId + ")", $currentRow);
-				var $tdBeneath = $("td:nth-child(" + tdChildId + ")", $rowBeneath);
+				// TODO: Better indexing
+				var $td = $("td.menu_content:nth-child(" + tdChildId + ")", $currentRow);
+				var $tdBeneath = $("td.menu_content:nth-child(" + tdChildId + ")", $rowBeneath);
 
-				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce (1,3,9a,30,35) (V)
+				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce
 				var currentMealName = $td.text();
 
 				// Geschwenkte Kartoffel-Paprika-Pfanne mit Wasabisauce
 				var realMealName = UniKasselParser.sanitizeMealName(currentMealName);
 
+				// (1, 3, 9a) (V), Kcal:718, E:28.0 g, K:98.0 g, Fe:22.0 g
+				var zsnamen = $(".zsnamen", $td).text()
 				// [1, 3, 9a, 30, 35, V]
-				var attr = UniKasselParser.getMealAttributes(currentMealName);
+				var attr = UniKasselParser.getMealAttributes(zsnamen);
 
 				var price = UniKasselParser.parseMealPrice($tdBeneath.text());
+
+				var isVital = $td.hasClass("mensavital");
+				var vitalInfo = isVital ? UniKasselParser.parseMensaVital(zsnamen) : null;
 
 				if(!realMealName && !price)
 				{
@@ -152,7 +161,8 @@ class UniKasselParser implements IMenuParser
 					mealIdDuringDays[dayOfWeek] = {
 						name: realMealName,
 						attributes: attr || [],
-						price: price
+						price: price,
+						vitalInfo: vitalInfo
 					};
 				}
 			}
@@ -161,7 +171,22 @@ class UniKasselParser implements IMenuParser
 		return meals;
 	}
 
-	private static parseMealPrice(text: string) : IPriceItem
+	private static parseMensaVital(zsnamen: string): IMensaVitalItem
+	{
+		//Kcal:718, E:28.0 g, K:98.0 g, Fe:22.0 g
+		var calories = /Kcal:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		var protein = /E:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		var carbohydrate = /K:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		var fat = /Fe:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		return {
+			fat: parseFloat(fat.exec(zsnamen)[1]),
+			carbohydrate: parseFloat(carbohydrate.exec(zsnamen)[1]),
+			protein: parseFloat(protein.exec(zsnamen)[1]),
+			calories: parseFloat(calories.exec(zsnamen)[1]),
+		};
+	}
+
+	private static parseMealPrice(text: string): IPriceItem
 	{
 		if(!text || !text.trim())
 			return null;
@@ -174,7 +199,8 @@ class UniKasselParser implements IMenuParser
 		var tsplit = text.split("/");
 		if(tsplit.length != 3)
 		{
-			console.debug("Whoopsie. Invalid price?");
+			console.error("Whoopsie. Invalid price?");
+			console.error(text);
 			return null;
 		}
 
@@ -267,7 +293,7 @@ class Menu
 			},
 			url: "http://www.studentenwerk-kassel.de/189.html",
 			parser: new UniKasselParser(),
-			mealCount: 4
+			mealCount: 5
 		},
 		hopla: {
 			info: {

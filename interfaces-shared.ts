@@ -16,6 +16,7 @@ interface IMealItem
 	name: string;
 	attributes: string[]
 	price: IPriceItem;
+	vitalInfo: IMensaVitalItem;
 }
 
 interface IPriceItem
@@ -31,6 +32,15 @@ interface ICanteenMenu
 	validity: IMenuValidity;
 	currency: string;
 	meals: IMeals;
+}
+
+interface IMensaVitalItem
+{
+	// Maybe add a units later
+	protein: number;
+	fat: number;
+	calories: number;
+	carbohydrate: number;
 }
 
 interface IMenuValidity
