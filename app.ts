@@ -291,7 +291,7 @@ class Menu
 					long: 9.47467
 				}
 			},
-			url: "./html-data/wilhelm-neu.htm" /* "http://www.studentenwerk-kassel.de/189.html" */,
+			url: "http://www.studentenwerk-kassel.de/189.html",
 			parser: new UniKasselParser(),
 			mealCount: 5
 		},
@@ -306,7 +306,7 @@ class Menu
 			},
 			url: "http://www.studentenwerk-kassel.de/188.html",
 			parser: new UniKasselParser(),
-			mealCount: 6
+			mealCount: 7
 		},
 		menzelstrasse: {
 			info: {
