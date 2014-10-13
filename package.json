@@ -41,8 +41,8 @@
     "prepublish": "./node_modules/typescript/bin/tsc -m CommonJS --removeComments app.ts"
   },
   "config": {
-    "port": "8080",
-    "url": "http://uni.holz.nu",
+    "port": "80",
+    "url": "http://canteen.holz.nu",
     "maxMenuAge": 3600
   }
 }
