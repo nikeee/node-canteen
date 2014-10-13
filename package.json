@@ -38,7 +38,7 @@
   "readmeFilename": "README.md",
   "scripts": {
     "start": "node app.js",
-    "prepublish": "tsc -m CommonJS --removeComments app.ts"
+    "prepublish": "./node_modules/typescript/bin/tsc -m CommonJS --removeComments app.ts"
   },
   "config": {
     "port": "8080",
