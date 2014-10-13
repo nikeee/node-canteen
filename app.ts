@@ -412,8 +412,8 @@ var server = restify.createServer();
 
 server.name = "canteen";
 server.version = "1.0.0";
-server.url = process.env["npm_package_config_url"];
-var port = parseInt(process.env["npm_package_config_port"]);
+server.url = process.env["npm_package_config_url"] || "http://canteen.holz.nu";
+var port = parseInt(process.env["PORT"]) || parseInt(process.env["npm_package_config_port"]) || 80;
 
 server.use(restify.CORS());
 server.use(restify.fullResponse());
