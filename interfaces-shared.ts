@@ -16,6 +16,8 @@ interface IMealItem
 	name: string;
 	attributes: string[]
 	price: IPriceItem;
+	isMensaVital: boolean;
+	vitalInfo: IMensaVitalItem;
 }
 
 interface IPriceItem
@@ -31,6 +33,11 @@ interface ICanteenMenu
 	validity: IMenuValidity;
 	currency: string;
 	meals: IMeals;
+}
+
+interface IMensaVitalItem
+{
+
 }
 
 interface IMenuValidity
