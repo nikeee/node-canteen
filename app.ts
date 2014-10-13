@@ -217,8 +217,9 @@ class UniKasselParser implements IMenuParser
 			return "";
 		name = name
 				.replace(UniKasselParser._mealAttrRe, "")
+				.replace(/(Kcal|E|K|Fe):\s*([-+]?[0-9]*\.?[0-9]+)/im, "")
 				.replace(/\s{2,}/gim, " ")
-				.replace(/\s,/gim,",");
+				.replace(/\s,/gim, ",");
 		return name.trim();
 	}
 
