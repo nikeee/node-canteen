@@ -1,0 +1,12 @@
+{
+  "name": "Kassel Canteen API",
+  "description": "A RESTful service that provides information about the current canteen menu.",
+  "repository": "https://github.com/nikeee/node-canteen.git",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": [
+  	"canteen",
+    "menu",
+    "meal",
+    "yum"
+  ]
+}
