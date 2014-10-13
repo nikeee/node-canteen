@@ -236,7 +236,7 @@ class UniKasselParser implements IMenuParser
 			if(!!m || m.length > 0)
 				s += m[1] + ",";
 		}
-		s = s.substring(0, s.length - 1);
+		s = s.substring(0, s.length - 1).toUpperCase();
 		s = s
 			.replace(/\(/gim, ",")
 			.replace(/\)/gim, ",")
