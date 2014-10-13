@@ -16,7 +16,6 @@ interface IMealItem
 	name: string;
 	attributes: string[]
 	price: IPriceItem;
-	isMensaVital: boolean;
 	vitalInfo: IMensaVitalItem;
 }
 
@@ -37,7 +36,11 @@ interface ICanteenMenu
 
 interface IMensaVitalItem
 {
-
+	// Maybe add a units later
+	protein: number;
+	fat: number;
+	calories: number;
+	carbohydrate: number;
 }
 
 interface IMenuValidity

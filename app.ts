@@ -162,7 +162,6 @@ class UniKasselParser implements IMenuParser
 						name: realMealName,
 						attributes: attr || [],
 						price: price,
-						isMensaVital: isVital,
 						vitalInfo: vitalInfo
 					};
 				}
@@ -175,9 +174,16 @@ class UniKasselParser implements IMenuParser
 	private static parseMensaVital(zsnamen: string): IMensaVitalItem
 	{
 		//Kcal:718, E:28.0 g, K:98.0 g, Fe:22.0 g
-		var pattern = /Kcal:(\d+)\s*,/gim;
-
-		throw "Not Implemented";
+		var calories = /Kcal:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		var protein = /E:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		var carbohydrate = /K:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		var fat = /Fe:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+		return {
+			fat: parseFloat(fat.exec(zsnamen)[1]),
+			carbohydrate: parseFloat(carbohydrate.exec(zsnamen)[1]),
+			protein: parseFloat(protein.exec(zsnamen)[1]),
+			calories: parseFloat(calories.exec(zsnamen)[1]),
+		};
 	}
 
 	private static parseMealPrice(text: string): IPriceItem
