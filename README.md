@@ -9,7 +9,7 @@ npm install
 
 To compile the TypeScript file, use:
 ```
-tsc -m commonjs --removeComments app.ts
+npm install
 ```
 
 To run the server:
