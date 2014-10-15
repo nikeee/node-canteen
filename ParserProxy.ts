@@ -1,7 +1,8 @@
 ///<reference path="typings/moment/moment.d.ts"/>
 
 import moment = require("moment");
-import Menu = require("Menu");
+
+import Menu = require("./Menu");
 
 class ParserProxy implements IParserProxy
 {

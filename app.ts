@@ -5,7 +5,8 @@
 ///<reference path="./interfaces-shared.ts"/>
 
 import restify = require("restify");
-import Menu = require("Menu");
+
+import Menu = require("./Menu");
 
 // TODO: Documentation/JSDoc
 

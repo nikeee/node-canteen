@@ -6,7 +6,8 @@
 
 import cheerio = require("cheerio");
 import moment = require("moment");
-import ParseUtilities = require("ParseUtilities");
+
+import ParseUtilities = require("./ParseUtilities");
 
 class UniKasselParser implements IMenuParser
 {
