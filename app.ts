@@ -217,9 +217,10 @@ class UniKasselParser implements IMenuParser
 			return "";
 		name = name
 				.replace(UniKasselParser._mealAttrRe, "")
-				.replace(/(Kcal|E|K|Fe):\s*([-+]?[0-9]*\.?[0-9]+)/im, "")
 				.replace(/\s{2,}/gim, " ")
 				.replace(/\s,/gim, ",");
+		if(name.lastIndexOf("Kcal") > -1)
+			name = name.substring(0, name.lastIndexOf("Kcal"));
 		return name.trim();
 	}
 
@@ -413,7 +414,7 @@ var server = restify.createServer();
 server.name = "canteen";
 server.version = "1.0.0";
 server.url = process.env["npm_package_config_url"] || "http://canteen.holz.nu";
-var port = parseInt(process.env["PORT"]) || parseInt(process.env["npm_package_config_port"]) || 80;
+var port = parseInt(process.env["PORT"]) || parseInt(process.env["npm_package_config_port"]) || 8080
 
 server.use(restify.CORS());
 server.use(restify.fullResponse());
