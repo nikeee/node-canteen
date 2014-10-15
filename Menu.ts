@@ -11,7 +11,7 @@ import ParserProxy = require("./ParserProxy");
 import UniKasselParser = require("./UniKasselParser");
 import LegacyUniKasselParser = require("./LegacyUniKasselParser");
 
-class Menu
+export class Menu
 {
 	public static availableCanteens: ICanteenList = {
 		wilhelmshoehe: {
@@ -149,5 +149,3 @@ class Menu
 		cb(null, parseRes);
 	}
 }
-
-export = Menu;

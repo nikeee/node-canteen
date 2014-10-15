@@ -1,5 +1,5 @@
 
-class ParseUtilities
+export class Parse
 {
 	public static fixDateOffset(d: Date): Date
 	{
@@ -7,5 +7,3 @@ class ParseUtilities
 		return d;
 	}
 }
-
-export = ParseUtilities;

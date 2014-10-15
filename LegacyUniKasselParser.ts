@@ -7,7 +7,7 @@
 import cheerio = require("cheerio");
 import moment = require("moment");
 
-import ParseUtilities = require("./ParseUtilities");
+import Utilities = require("./ParseUtilities");
 
 class LegacyUniKasselParser implements IMenuParser
 {
@@ -27,8 +27,8 @@ class LegacyUniKasselParser implements IMenuParser
 			menu: {
 				info: canteen.info,
 				validity: {
-					from: ParseUtilities.fixDateOffset(validity.from),
-					until: ParseUtilities.fixDateOffset(validity.until)
+					from: Utilities.Parse.fixDateOffset(validity.from),
+					until: Utilities.Parse.fixDateOffset(validity.until)
 				},
 				currency: "€",
 				meals: meals,

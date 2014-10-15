@@ -6,7 +6,7 @@
 
 import restify = require("restify");
 
-import Menu = require("./Menu");
+import MenuSystem = require("./Menu");
 
 // TODO: Documentation/JSDoc
 
@@ -33,7 +33,7 @@ server.on("uncaughtException", (req, res, route, error) => {
 });
 server.get("/canteens", (rq, res, next) => {
 	res.send({
-		availableCanteens: Object.keys(Menu.availableCanteens)
+		availableCanteens: Object.keys(MenuSystem.Menu.availableCanteens)
 	});
 	next();
 });
@@ -43,7 +43,7 @@ server.get("/menu/:canteen", (req, res, next) => {
 
 	console.log("Serving response.");
 
-	Menu.getCachedOrRequestNew(req.params.canteen, (err, menu) => {
+	MenuSystem.Menu.getCachedOrRequestNew(req.params.canteen, (err, menu) => {
 		if(err)
 		{
 			res.send(500, {

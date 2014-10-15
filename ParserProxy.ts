@@ -2,7 +2,7 @@
 
 import moment = require("moment");
 
-import Menu = require("./Menu");
+import MenuSystem = require("./Menu");
 
 class ParserProxy implements IParserProxy
 {
@@ -59,7 +59,7 @@ class ParserProxy implements IParserProxy
 			cb(new Error("No canteen available."), this._currentMenu);
 			return;
 		}
-		Menu.pull(this.canteen, (err, menu) => cb(err, menu));
+		MenuSystem.Menu.pull(this.canteen, (err, menu) => cb(err, menu));
 	}
 }
 
