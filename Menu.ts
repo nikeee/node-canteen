@@ -9,7 +9,7 @@ import fs = require("fs");
 
 import ParserProxy = require("./ParserProxy");
 import UniKasselParser = require("./UniKasselParser");
-import LegacyUniKasselParser = require(./"LegacyUniKasselParser");
+import LegacyUniKasselParser = require("./LegacyUniKasselParser");
 
 class Menu
 {
