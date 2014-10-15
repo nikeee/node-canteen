@@ -94,8 +94,8 @@ class UniKasselParser implements IMenuParser
 			menu: {
 				info: canteen.info,
 				validity: {
-					from: this.fixDateOffset(validity.from),
-					until: this.fixDateOffset(validity.until)
+					from: ParseUtilities.fixDateOffset(validity.from),
+					until: ParseUtilities.fixDateOffset(validity.until)
 				},
 				currency: "€",
 				meals: meals,
@@ -274,12 +274,6 @@ class UniKasselParser implements IMenuParser
 			until: untilDate
 		};
 	}
-
-	private fixDateOffset(d: Date): Date
-	{
-		d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
-		return d;
-	}
 }
 
 
@@ -301,8 +295,8 @@ class LegacyUniKasselParser implements IMenuParser
 			menu: {
 				info: canteen.info,
 				validity: {
-					from: this.fixDateOffset(validity.from),
-					until: this.fixDateOffset(validity.until)
+					from: ParseUtilities.fixDateOffset(validity.from),
+					until: ParseUtilities.fixDateOffset(validity.until)
 				},
 				currency: "€",
 				meals: meals,
@@ -455,7 +449,11 @@ class LegacyUniKasselParser implements IMenuParser
 		};
 	}
 
-	private fixDateOffset(d: Date): Date
+}
+
+class ParseUtilities
+{
+	public static fixDateOffset(d: Date): Date
 	{
 		d.setHours(d.getHours() - d.getTimezoneOffset() / 60);
 		return d;
