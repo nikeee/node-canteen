@@ -312,7 +312,11 @@ class Menu
 		},
 		menzelstrasse: {
 			info: {
-				name: "Mensa Menzelstraße"
+				name: "Mensa Menzelstraße",
+				location: {
+					lat: 51.305234,
+					long: 9.489587
+				}
 			},
 			url: "http://www.studentenwerk-kassel.de/195.html",
 			parser: new UniKasselParser(),
@@ -320,7 +324,11 @@ class Menu
 		},
 		plett: {
 			info: {
-				name: "Mensa Heinrich-Plett-Straße"
+				name: "Mensa Heinrich-Plett-Straße",
+				location: {
+					lat: 51.282003,
+					long: 9.447503
+				}
 			},
 			url: "http://www.studentenwerk-kassel.de/187.html",
 			parser: new UniKasselParser(),
@@ -328,7 +336,11 @@ class Menu
 		},
 		witzenhausen: {
 			info: {
-				name: "Mensa Witzenhausen"
+				name: "Mensa Witzenhausen",
+				location: {
+					lat: 51.343777,
+					long: 9.859827
+				}
 			},
 			url: "http://www.studentenwerk-kassel.de/415.html",
 			parser: new UniKasselParser(),
