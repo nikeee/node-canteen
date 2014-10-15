@@ -2,12 +2,7 @@
 
 A RESTful service that provides information about the current canteen menu. Written in TypeScript running in node.js.
 
-To install the dependencies, use:
-```
-npm install
-```
-
-To compile the TypeScript file, use:
+To install the dependencies and compile the TypeScript, use:
 ```
 npm install
 ```
