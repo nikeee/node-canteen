@@ -111,11 +111,17 @@ class UniKasselParser implements IMenuParser
 		var protein = /E:\s*([-+]?[0-9]*\.?[0-9]+)/im;
 		var carbohydrate = /K:\s*([-+]?[0-9]*\.?[0-9]+)/im;
 		var fat = /Fe:\s*([-+]?[0-9]*\.?[0-9]+)/im;
+
+		var fatr = fat.exec(zsnamen);
+		var carbohydrater = carbohydrate.exec(zsnamen);
+		var proteinr = protein.exec(zsnamen);
+		var caloriesr = calories.exec(zsnamen);
+
 		return {
-			fat: parseFloat(fat.exec(zsnamen)[1]),
-			carbohydrate: parseFloat(carbohydrate.exec(zsnamen)[1]),
-			protein: parseFloat(protein.exec(zsnamen)[1]),
-			calories: parseFloat(calories.exec(zsnamen)[1]),
+			fat: fatr != null ? parseFloat(fatr[1]) : 0.0,
+			carbohydrate: carbohydrater != null ? parseFloat(carbohydrater[1]) : 0.0,
+			protein: proteinr != null ? parseFloat(proteinr[1]) : 0.0,
+			calories: caloriesr != null ? parseFloat(caloriesr[1]) : 0.0
 		};
 	}
 
