@@ -26,19 +26,19 @@
   },
   "main": "app.js",
   "dependencies": {
-    "cheerio": "~0.17.0",
-    "moment": "~2.8.3",
-    "request": "~2.42.0",
-    "restify": "~2.8.2",
-    "typescript": "~1.0.1"
+    "cheerio": "~0.19.0",
+    "moment": "^2.8.3",
+    "request": "^2.42.0",
+    "restify": "^2.8.2"
   },
   "devDependencies": {
+    "typescript": "^1.6.2"
   },
   "private": true,
   "readmeFilename": "README.md",
   "scripts": {
     "start": "node app.js",
-    "prepublish": "./node_modules/typescript/bin/tsc -m CommonJS --removeComments app.ts"
+    "prepublish": "tsc"
   },
   "config": {
     "port": "8080",

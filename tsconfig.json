@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"sourceMap": false,
+		"removeComments": true
+	},
+	"files": [
+		"app.ts"
+	]
+}
